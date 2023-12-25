@@ -5,7 +5,7 @@ namespace Litespeed\LSCache;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 class LSCacheMiddleware
 {
     /**
@@ -33,7 +33,7 @@ class LSCacheMiddleware
             return $response;
         }
 
-        if ($guest_only && Auth::check()) {
+        if ($guest_only && Sentinel::check()) {
             $response->headers->set('X-LiteSpeed-Cache-Control', 'no-cache');
 
             return $response;
