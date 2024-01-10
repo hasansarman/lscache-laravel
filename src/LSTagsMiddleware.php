@@ -2,7 +2,9 @@
 
 namespace Litespeed\LSCache;
 
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Closure;
+use Illuminate\Support\Facades\App;
 
 class LSTagsMiddleware
 {
@@ -26,6 +28,9 @@ class LSTagsMiddleware
 
         if(isset($lscache_tags)) {
             $lscache_string = str_replace(';', ',', $lscache_tags);
+
+
+            $lscache_string.=$this->return_suffix();
         }
 
         if(empty($lscache_string)) {
@@ -37,5 +42,27 @@ class LSTagsMiddleware
         }
 
         return $response;
+    }
+
+    private function return_suffix()
+    {
+        $suffix_key_format = config('lscache.suffix_key_format');
+        $exploded=explode("+", $suffix_key_format);
+        $returnstr="";
+        foreach($exploded as $e){
+            if($e =="LOCALE"){
+                $returnstr.="_".App::getLocale();
+
+            }
+            else if($e=="USER"){
+                if ($user = Sentinel::check())
+                {
+                    // User is logged in and assigned to the `$user` variable.
+                    $returnstr.="_".$user->id;
+                }
+
+            }
+        }
+        return $returnstr;
     }
 }

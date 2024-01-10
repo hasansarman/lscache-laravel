@@ -2,7 +2,8 @@
     "name": "litespeed/lscache-laravel",
     "description": "LSCache Implementation for Laravel",
     "require": {
-        "illuminate/support": "^5.1|^6|^7|^8|^9|^10.0"
+        "illuminate/support": "^5.1|^6|^7|^8|^9|^10.0",
+        "cartalyst/sentinel": ">6.0"
     },
     "license": "GPL-3.0-only",
     "authors": [
@@ -11,6 +12,7 @@
             "email": "lrolff@litespeedtech.com"
         }
     ],
+
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
